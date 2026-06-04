@@ -1,48 +1,58 @@
-package main 
+package main
 
 import "fmt"
 
-const max = 100
+type mahasiswa struct {
+	nama, nim string
+	IPK       float64
+}
 
-type arr [max]int
-
-func BinarySearch(a arr, n int, x int) bool{
-	var kiri int = 0
-	var kanan int = n - 1 
-	var found bool = false
-	var tengah int
-
-	for kiri <= kanan && !found{
-		tengah = (kiri + kanan) / 2
-		if a[tengah] < x {
-			kiri = tengah + 1
-		} else if a[tengah] > x {
-			kanan = tengah - 1
-		} else {
-			found = true
+func SelectionSortArray(sMHS *[5]mahasiswa) {
+	var idx_min, i, j int
+	for i = 0; i < len(sMHS)-1; i++ {
+		idx_min = i
+		for j = i + 1; j < len(sMHS); j++ {
+			if sMHS[j].IPK < sMHS[idx_min].IPK {
+				idx_min = j
+			}
+		}
+		if idx_min != i {
+			sMHS[i], sMHS[idx_min] = sMHS[idx_min], sMHS[i]
 		}
 	}
-	return found
 }
 
 func main() {
-	var data arr
-	var n, x int
+	var structMHS [5]mahasiswa
 
-	fmt.Print("Input jumlah data: ")
-	fmt.Scan(&n)
-
-	fmt.Println("Input data ascending")
-	for i := 0; i <= n; i++ {
-		fmt.Scanln(&data[i])
+	for i := 0; i < len(structMHS); i++ {
+		fmt.Printf("--- Masukan Data Mahasiswa ke-%d ---\n", i)
+		fmt.Print("Nama : ")
+		fmt.Scan(&structMHS[i].nama)
+		fmt.Print("NIM : ")
+		fmt.Scan(&structMHS[i].nim)
+		fmt.Print("IPK : ")
+		fmt.Scan(&structMHS[i].IPK)
 	}
+	fmt.Println()
 
-	fmt.Println("Data yang dicari: ")
-	fmt.Scan(&x)
-
-	if BinarySearch(data, n, x){
-		fmt.Println("Data ditemukan")
-	} else {
-		fmt.Println("DATA TIDAK ditemukan")
+	fmt.Println(" === SEBELUM SORTING === ")
+	for i := 0; i < len(structMHS); i++ {
+		fmt.Printf("--- Data Mahasiswa Ke-%d ---\n", i)
+		fmt.Printf("Nama : %s\n", structMHS[i].nama)
+		fmt.Printf("NIM : %s\n", structMHS[i].nim)
+		fmt.Printf("IPK : %.2f\n", structMHS[i].IPK)
 	}
+	fmt.Println("=======================")
+	fmt.Println()
+
+	SelectionSortArray(&structMHS)
+	fmt.Println(" === SETELAH SORTING === ")
+	for i := 0; i < len(structMHS); i++ {
+		fmt.Printf("Nama : %s\n", structMHS[i].nama)
+		fmt.Printf("NIM : %s\n", structMHS[i].nim)
+		fmt.Printf("IPK : %.2f\n", structMHS[i].IPK)
+	}
+	fmt.Println("======================")
+	fmt.Println()
 }
